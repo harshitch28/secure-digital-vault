@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.digitalvault.vault.dto.LoginRequest;
 import com.digitalvault.vault.dto.AuthResponse;
 
+@CrossOrigin()
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
