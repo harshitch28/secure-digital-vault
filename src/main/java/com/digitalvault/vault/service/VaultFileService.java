@@ -1,5 +1,6 @@
 package com.digitalvault.vault.service;
 
+import com.digitalvault.vault.dto.VaultFileList;
 import com.digitalvault.vault.entity.User;
 import com.digitalvault.vault.entity.VaultFile;
 import com.digitalvault.vault.repository.UserRepository;
@@ -18,7 +19,7 @@ import java.util.List;
 @Service
 public class VaultFileService {
 
-    private static final String STORAGE_DIR = "vault-storage/";
+    private static final String STORAGE_DIR = System.getProperty("user.home") + "/vault-storage/";
 
     @Autowired
     private VaultFileRepository vaultFileRepository;
@@ -63,5 +64,11 @@ public class VaultFileService {
     @PreAuthorize("hasRole('ADMIN')")
     public List<VaultFile> getAllFiles() {
         return vaultFileRepository.findAll();
+    }
+
+    public List<VaultFileList> getFilesForOwner() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username).orElseThrow();
+        return vaultFileRepository.findFileIdsAndNamesByOwner(user);
     }
 }

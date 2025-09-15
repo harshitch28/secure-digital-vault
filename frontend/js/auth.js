@@ -24,7 +24,7 @@ if (registerForm) {
       showMessage("✅ Registration successful! Redirecting to login...", "success");
       setTimeout(() => {
         window.location.href = "login.html";
-      }, 2000);
+      }, 200);
     } catch (err) {
       const msg = err.response?.data?.message || "Registration failed.";
       showMessage(`❌ ${msg}`, "danger");
@@ -54,7 +54,7 @@ if (loginForm) {
       showMessage("✅ Login successful! Redirecting...", "success");
       setTimeout(() => {
         window.location.href = "dashboard.html";
-      }, 1500);
+      }, 150);
     } catch (err) {
       const msg = err.response?.data?.message || "Login failed.";
       showMessage(`❌ ${msg}`, "danger");

@@ -63,19 +63,25 @@ function apiUploadFile(url, formData) {
   }).then(res => res.data);
 }
 
-// ✅ Reusable file download (GET as blob)
-function apiDownloadFile(url) {
+// ✅ Get Owners File names along with file IDs
+function apiGetFileList(url) {
+  return api.get(url).then(res => res.data);
+}
+
+//File Download 
+async function apiDownloadFile(url) {
   return api.get(url, {
-    responseType: 'blob'
+    responseType: 'blob'   // ✅ tells Axios to handle binary properly
   });
 }
 
+
 // ✅ Expose all functions for use in other files
 export {
-  api,
   apiGet,
   apiPost,
   apiUploadFile,
-  apiDownloadFile,
-  getToken
+  getToken,
+  apiGetFileList,
+  apiDownloadFile
 };
