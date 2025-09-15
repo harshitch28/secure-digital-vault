@@ -6,7 +6,8 @@ import com.digitalvault.vault.entity.User;
 import com.digitalvault.vault.repository.RoleRepository;
 import com.digitalvault.vault.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.digitalvault.vault.dto.LoginRequest;
 import com.digitalvault.vault.dto.AuthResponse;
@@ -26,8 +27,11 @@ public class AuthService {
     @Autowired
     private RoleRepository roleRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    //@Autowired
+    //private PasswordEncoder passwordEncoder;
+
+    //@Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12) ;
 
     public String registerUser(RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
@@ -39,7 +43,7 @@ public class AuthService {
         }
 
         // Encode the password
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
+        String encodedPassword = bCryptPasswordEncoder.encode(request.getPassword());
 
         // Create User object
         User user = new User();
@@ -72,7 +76,7 @@ public class AuthService {
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+        if (!bCryptPasswordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
 
